@@ -13,7 +13,7 @@ const analysisSchema = new mongoose.Schema({
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true, maxlength: 100 },
   audience: { type: String, default: '', maxlength: 200 },
-  category: { type: String, default: '' },
+  category: { type: String, default: '', maxlength: 60 },
   images: [{ type: String }],
   verifiedFacts: {
     material: String,
