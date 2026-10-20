@@ -42,7 +42,7 @@ npm run dev:server
 npm run dev:client
 ```
 
-打开 http://localhost:5173 ，按F12选择Console查看`[health] 后端响应`；直接访问 http://localhost:3000/api/health 也可查看JSON：
+打开 http://localhost:5174 ，按F12选择Console查看`[health] 后端响应`；直接访问 http://localhost:3100/api/health 也可查看JSON：
 
 ```json
 {"code":0,"message":"ok","data":{"status":"up","db":"connected","time":"运行时UTC时间"}}
@@ -89,3 +89,4 @@ Product.images按本次作业使用路径数组，后续上传接口把第一张
 首次提交信息：`chore: init fullstack skeleton (vue3 + express + mongodb)`。
 
 作业需要两张真实截图：①浏览器地址栏+Console成功响应；②首次提交信息、作者、时间，并在截图下方注明仓库地址。源码压缩包不替代这两张截图。
+

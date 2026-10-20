@@ -5,7 +5,7 @@ import { createApp } from './createApp.js'
 
 let server
 try {
-  const port = Number(process.env.PORT || 3000)
+  const port = Number(process.env.PORT || 3100)
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('PORT必须为有效端口')
   await connectDB()
   server = createApp().listen(port, '127.0.0.1', () => console.log(`[server] http://localhost:${port}`))
@@ -27,3 +27,4 @@ async function shutdown() {
 }
 process.once('SIGINT', shutdown)
 process.once('SIGTERM', shutdown)
+
