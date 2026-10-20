@@ -1,9 +1,23 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
 import { useProductStore } from '../stores/product.js'
-import { imageUrl } from '../api/product.js'
+import { imageUrl, analyzeProduct } from '../api/product.js'
 
 const store = useProductStore()
+const analyzing = reactive({})
+const errors = reactive({})
+async function runAnalyze(product) {
+  if (analyzing[product._id]) return
+  analyzing[product._id] = true
+  errors[product._id] = ''
+  try {
+    const response = await analyzeProduct(product._id)
+    product.aiAnalysis = response.data
+    ElMessage.success(response.data.visual_elements.length ? '识别完成，请核对结果' : '未识别到商品，请尝试更清晰的图片')
+  } catch (error) { errors[product._id] = error.message; ElMessage.error(error.message) }
+  finally { analyzing[product._id] = false }
+}
 defineExpose({ reload: () => store.load(1) })
 onMounted(() => store.load())
 </script>
@@ -34,6 +48,22 @@ onMounted(() => store.load())
               <el-tag v-if="product.audience" size="small" type="info" effect="plain">{{ product.audience }}</el-tag>
             </div>
             <div class="product-time">{{ new Date(product.createdAt).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }) }}</div>
+            <el-button class="analyze-button" type="primary" plain size="small" :loading="analyzing[product._id]" :disabled="analyzing[product._id]" @click="runAnalyze(product)">
+              {{ product.aiAnalysis?.analyzedAt ? '重新识别' : 'AI 一键识别' }}
+            </el-button>
+            <p v-if="errors[product._id]" class="analysis-error" role="alert">{{ errors[product._id] }}</p>
+            <div v-if="product.aiAnalysis?.analyzedAt" class="ai-result">
+              <p class="analysis-note">AI 分析草稿 · 请核对后再用于营销</p>
+              <template v-if="product.aiAnalysis.visual_elements.length">
+                <div class="ai-title">外观特征</div>
+                <el-tag v-for="tag in product.aiAnalysis.visual_elements" :key="tag" class="analysis-tag" type="primary">{{ tag }}</el-tag>
+                <div class="ai-title">核心卖点</div>
+                <el-tag v-for="tag in product.aiAnalysis.core_selling_points" :key="tag" class="analysis-tag" type="success">{{ tag }}</el-tag>
+                <div class="ai-title">场景建议</div>
+                <el-tag v-for="tag in product.aiAnalysis.scene_suggestions" :key="tag" class="analysis-tag" type="warning">{{ tag }}</el-tag>
+              </template>
+              <p v-else class="analysis-note">未识别到商品，建议更换主体清晰的图片。</p>
+            </div>
           </div>
         </el-card>
       </div>

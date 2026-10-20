@@ -21,6 +21,6 @@ const list = ref()
       <UploadPanel @created="list?.reload()" />
       <ProductList ref="list" />
     </div>
-    <footer>刘嘉略 · 0120251050 <span>资产中心 · 作业 3</span></footer>
+    <footer>刘嘉略 · 0120251050 <span>资产中心 · 视觉理解 · 作业 4</span></footer>
   </main>
 </template>

@@ -1,0 +1,43 @@
+{
+  "verifiedAt": "2026-10-20T15:49:17.454Z",
+  "model": "qwen3-vl-plus",
+  "productId": "6ad77302e9fde4e38d252ee0",
+  "checks": [
+    "真实模型HTTP200",
+    "识别中按钮loading并防重复",
+    "并发重复请求409",
+    "网络失败提示及恢复",
+    "三类标签渲染",
+    "刷新后结果仍在MongoDB",
+    "非法ID400与不存在商品404",
+    "390px无横向溢出"
+  ],
+  "response": {
+    "code": 0,
+    "message": "ok",
+    "data": {
+      "visual_elements": [
+        "浅灰绿色底座与支撑杆",
+        "深灰边框手机轮廓",
+        "倾斜支撑结构",
+        "扁平化插画风格",
+        "商品结构示意图"
+      ],
+      "core_selling_points": [
+        "倾斜角度便于观看屏幕",
+        "底座提供稳定放置基础",
+        "简洁造型适配多种桌面环境"
+      ],
+      "scene_suggestions": [
+        "办公桌上午后自然光下展示支撑姿态",
+        "咖啡馆木质桌面上搭配笔记本使用",
+        "书桌台灯旁夜间阅读时示意摆放位置"
+      ],
+      "uncertain_fields": [],
+      "analyzedAt": "2026-10-20T15:49:16.366Z",
+      "reviewStatus": "draft",
+      "version": 1
+    }
+  },
+  "pageErrors": []
+}

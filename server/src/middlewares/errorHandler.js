@@ -4,6 +4,9 @@ export function notFound(req, res) {
 
 export function errorHandler(err, req, res, next) {
   if (res.headersSent) return next(err)
+  if (err.name === 'LLMError' && err.expose === true) {
+    return res.status(err.status).json({ code: err.code, message: err.message, data: null })
+  }
   if (err.name === 'MulterError') {
     const messages = {
       LIMIT_FILE_SIZE: '单张图片不能超过 5MB',

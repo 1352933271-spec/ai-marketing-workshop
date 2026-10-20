@@ -1,7 +1,7 @@
 # AI 出海营销工坊
 
 刘嘉略 · 0120251050  
-作业3：在Vue 3 + Express + MongoDB工程骨架上实现商品资产中心。
+作业4：在商品资产中心上接入百炼多模态识图，输出结构化分析并保存到MongoDB。
 
 ## 本次实现
 
@@ -11,7 +11,8 @@
 - Mongoose Product、MarketingAsset模型，时间戳、必填及枚举约束、商品引用索引。
 - 数据库断开时健康接口返回503，而非伪报成功；启动必须先连接MongoDB。
 - 首页为资产中心：拖拽多图上传、名称/受众/品类表单、分页瀑布流、全部图片预览；原健康检测页移至`/health`。
-- 新增multer磁盘暂存、Sharp真实图片解码与再编码、失败清理；AI调用、文案、生图、看板和ZIP业务在后续作业实现。
+- multer磁盘暂存、Sharp真实图片解码与再编码、失败清理。
+- 统一llmClient、前三张图Base64、严格JSON校验与一次格式重试、识图接口、卡片loading与三色标签。文案、生图、看板和ZIP业务在后续作业实现。
 
 ## 环境及启动
 
@@ -118,4 +119,24 @@ npm --prefix server test
 使用随机命名的独立临时数据库，不操作aimarketing业务库；测试结束自动清理本次生成图片与测试数据库。覆盖多图写入/读取、静态访问、伪装/损坏文件、超大小和数量、边界值、分页、暂存目录隔离、数据库失败清理。
 
 实现参考：[Multer官方文档](https://expressjs.com/en/resources/middleware/multer/)、[Sharp构造与解码选项](https://sharp.pixelplumbing.com/api-constructor/)。
+
+## 作业4：真实多模态识图
+
+在`server/.env`设置`DASHSCOPE_API_KEY`、`LLM_BASE_URL`、`VISION_MODEL=qwen3-vl-plus`；`TEXT_MODEL=qwen-plus`预留给后续文案作业。本次使用控制台实际可选的Qwen3-VL-Plus，保留课程要求的兼容协议与三个输出字段。Base URL应复制自己百炼工作空间提供的地址，不同地域的Key、模型与地址需要匹配。
+
+复制`.env.example`后填自己的Key，不要覆盖已有配置。Key只放后端环境变量，不进入前端、Git、报告或ZIP。建议先在百炼为所选视觉模型开启免费额度“用完即停”；这是账户侧设置，克隆项目不会自动继承。
+
+`POST /api/products/:id/analyze`无请求体：读取MongoDB商品和最多前三张本地图片，经Sharp缩放至1280像素以内、转JPEG Base64后调用模型。成功HTTP200、`{code:0,message:"ok",data:{visual_elements,core_selling_points,scene_suggestions,analyzedAt,reviewStatus,version}}`；前三项为字符串数组。外观3～6条、卖点3～5条、场景3条，每条1～30字符；不可识别商品时三个数组全空。附加的审核状态/时间/版本由后端生成；`uncertain_fields`为既有模型预留字段，当前不会推断其内容。
+
+错误：HTTP400/4001无效ID、无图或图片不可读；404/4004商品不存在；409/4009同商品正在识别；503/5002缺少配置；502/5002上游调用、超时或格式异常。失败data为null。仅JSON解析或结构失败重试一次，鉴权/额度/网络失败不自动重试；失败保留已保存结果。单次模型45秒、识图总体85秒、前端110秒超时。
+
+前端按商品独立loading并禁用按钮，失败提示、识别完成直接更新当前卡片、刷新后读取已保存结果。分析以草稿展示，蓝色外观/绿色卖点/橙色场景；空结果提示换图。
+
+2026-10-20真实调用通过；8项视觉单元测试和原上传回归合计24个测试全部通过，Vue生产构建通过。真实浏览器核对按钮防重、并发409、三类标签、刷新后持久化、错误提示及390px布局。端口3200/5274为本机隔离验收使用，示例默认仍为3100/5174。
+
+调优报告及原始证据见[作业4进度与联调](docs/作业4进度与联调.md)与`docs/验收记录/`。调优采用示例商品插画，不是实物检测；结构正确不等于事实已验证，卖点使用前须人工核对。
+
+可选复现实测：先上传同名示例商品，配置Key与免费额度保护，再运行`node server/scripts/tune-vision.js`。该命令会真实调用模型并更新实测记录，消耗所选模型额度。普通`npm --prefix server test`使用注入响应验证视觉逻辑，不调用模型。
+
+来源：[阿里云获取API Key](https://help.aliyun.com/zh/model-studio/get-api-key)、[图像与视频理解](https://help.aliyun.com/zh/model-studio/vision-model)。
 
