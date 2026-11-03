@@ -1,9 +1,21 @@
 {
-  "sourceSecretScan": "passed",
-  "historyCurrentKeyScan": "passed",
-  "sourceFiles": 103,
-  "historyBlobs": 81,
-  "envIgnored": true,
-  "publicFrontendEnv": "client/.env.production与.env.development只含公开API配置，允许跟踪；server/.env不跟踪",
-  "time": "2026-11-03"
+  "time": "2026-11-03",
+  "sourceFiles": 110,
+  "historyBlobs": 141,
+  "actualKeyScan": "passed",
+  "credentialPatterns": [
+    "sk tokens",
+    "GitHub tokens",
+    "AWS access key id",
+    "private key headers"
+  ],
+  "issues": [],
+  "ignored": {
+    "server/.env": true,
+    "server/node_modules/example": true,
+    "client/node_modules/example": true,
+    "client/dist/example": true,
+    "server/uploads/example.png": true
+  },
+  "scope": "扫描当前跟踪及未忽略文件和本地全部Git引用可达blob；不能证明不存在不匹配这些模式的所有其他秘密。前端env仅公开API路径，允许跟踪。"
 }

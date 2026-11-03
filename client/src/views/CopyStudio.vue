@@ -58,12 +58,5 @@ onMounted(()=>{store.load();loadAssets()})
 
 <style scoped>
 .copy-layout { display:grid; grid-template-columns:minmax(280px, 360px) minmax(0,1fr); gap:24px; }
-.copy-output { white-space:pre-wrap; overflow-wrap:anywhere; font:inherit; line-height:1.8; min-height:240px; }
-.comparison { margin-top:32px; }
-.comparison-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
-@media(max-width:760px) { .copy-layout,.comparison-grid { grid-template-columns:1fr; } }
+@media(max-width:760px) { .copy-layout { grid-template-columns:1fr; } }
 </style>
-
-
-
-

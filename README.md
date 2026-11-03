@@ -96,7 +96,7 @@ docker-compose.yml      三服务与两持久化卷
 
 ## 验证
 
-`npm --prefix server test`使用独立临时数据库并清理，仅生产联调才调用真实模型；`npm run build`构建前端。Docker验收以docs中的实际记录为准，不能用本地开发截图替代容器运行证明。
+测试前须启动可连接的MongoDB，并通过MONGO_URI指向它。`npm --prefix server test`在该服务内创建随机名称的临时数据库，结束删除自己的测试库；测试不调用真实模型。`npm run build`构建前端。Docker验收以docs中的实际记录为准，不能用本地开发截图替代容器运行证明。
 
 审计只覆盖启用之后的调用。未知Token为null，看板显示已知合计及缺失数量；用户取消不算失败，成功率排除取消。生图0个文本Token不代表免费，image请求成功只表示任务被接受，不等于成图必然成功。
 
@@ -118,3 +118,15 @@ docker-compose.yml      三服务与两持久化卷
 关键页面和实际验收记录见docs/验收记录及docs/screenshots。课程提交物单独保存在电商作业文件夹，与GEO分开。
 
 仓库：https://github.com/1352933271-spec/ai-marketing-workshop
+
+## 本次交付验收（2026-11-03）
+
+38项后端测试、前端生产构建通过；前后端npm audit均为0个已知漏洞。以无node_modules的新目录构建并复用交付数据卷，健康检查通过；compose restart后商品与图片仍可读取。仅8080映射到宿主机。真实AI全链路记录位于docs/验收记录。
+
+![Docker资产中心](docs/screenshots/docker-assets.png)
+
+![经Nginx的SSE输出](docs/screenshots/docker-stream.png)
+
+![Docker场景图](docs/screenshots/docker-scene.png)
+
+![真实调用看板](docs/screenshots/docker-stats.png)

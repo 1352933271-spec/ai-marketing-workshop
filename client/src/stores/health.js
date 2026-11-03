@@ -15,8 +15,6 @@ export const useHealthStore = defineStore('health', () => {
     try {
       const response = await getHealth()
       result.value = response
-      console.log('[health] 后端响应：', response)
-      console.log('[health] 完整 JSON：\n' + JSON.stringify(response, null, 2))
     } catch (e) {
       error.value = e.message
       console.error('[health] 请求失败：', e.message)

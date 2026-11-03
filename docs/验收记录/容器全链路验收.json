@@ -1,0 +1,450 @@
+{
+  "time": "2026-11-03T08:02:07.500Z",
+  "base": "http://localhost:8080",
+  "segments": [
+    {
+      "name": "intro",
+      "start": 0,
+      "end": 6.732
+    },
+    {
+      "name": "upload",
+      "start": 6.732,
+      "end": 15.67
+    },
+    {
+      "name": "vision",
+      "start": 15.67,
+      "end": 28.248
+    },
+    {
+      "name": "amazon",
+      "start": 28.248,
+      "end": 51.82
+    },
+    {
+      "name": "tiktok",
+      "start": 51.82,
+      "end": 67.236
+    },
+    {
+      "name": "scene",
+      "start": 67.236,
+      "end": 94.494
+    },
+    {
+      "name": "export",
+      "start": 94.494,
+      "end": 101.544
+    },
+    {
+      "name": "stats",
+      "start": 101.544,
+      "end": 109.029
+    }
+  ],
+  "polls": [
+    1793693008418,
+    1793693011503,
+    1793693014583
+  ],
+  "streamSamples": [
+    {
+      "time": 1793692956983,
+      "channel": "Amazon",
+      "length": 18
+    },
+    {
+      "time": 1793692957487,
+      "channel": "Amazon",
+      "length": 18
+    },
+    {
+      "time": 1793692957991,
+      "channel": "Amazon",
+      "length": 18
+    },
+    {
+      "time": 1793692958496,
+      "channel": "Amazon",
+      "length": 18
+    },
+    {
+      "time": 1793692958999,
+      "channel": "Amazon",
+      "length": 18
+    },
+    {
+      "time": 1793692959501,
+      "channel": "Amazon",
+      "length": 18
+    },
+    {
+      "time": 1793692960004,
+      "channel": "Amazon",
+      "length": 66
+    },
+    {
+      "time": 1793692960549,
+      "channel": "Amazon",
+      "length": 182
+    },
+    {
+      "time": 1793692961052,
+      "channel": "Amazon",
+      "length": 267
+    },
+    {
+      "time": 1793692961555,
+      "channel": "Amazon",
+      "length": 381
+    },
+    {
+      "time": 1793692962059,
+      "channel": "Amazon",
+      "length": 492
+    },
+    {
+      "time": 1793692962561,
+      "channel": "Amazon",
+      "length": 589
+    },
+    {
+      "time": 1793692963064,
+      "channel": "Amazon",
+      "length": 702
+    },
+    {
+      "time": 1793692963568,
+      "channel": "Amazon",
+      "length": 842
+    },
+    {
+      "time": 1793692964071,
+      "channel": "Amazon",
+      "length": 938
+    },
+    {
+      "time": 1793692964575,
+      "channel": "Amazon",
+      "length": 1086
+    },
+    {
+      "time": 1793692965077,
+      "channel": "Amazon",
+      "length": 1207
+    },
+    {
+      "time": 1793692965581,
+      "channel": "Amazon",
+      "length": 1300
+    },
+    {
+      "time": 1793692966086,
+      "channel": "Amazon",
+      "length": 1437
+    },
+    {
+      "time": 1793692966589,
+      "channel": "Amazon",
+      "length": 1550
+    },
+    {
+      "time": 1793692967092,
+      "channel": "Amazon",
+      "length": 18
+    },
+    {
+      "time": 1793692967595,
+      "channel": "Amazon",
+      "length": 43
+    },
+    {
+      "time": 1793692968098,
+      "channel": "Amazon",
+      "length": 166
+    },
+    {
+      "time": 1793692968602,
+      "channel": "Amazon",
+      "length": 260
+    },
+    {
+      "time": 1793692969105,
+      "channel": "Amazon",
+      "length": 368
+    },
+    {
+      "time": 1793692969608,
+      "channel": "Amazon",
+      "length": 461
+    },
+    {
+      "time": 1793692970111,
+      "channel": "Amazon",
+      "length": 567
+    },
+    {
+      "time": 1793692970613,
+      "channel": "Amazon",
+      "length": 671
+    },
+    {
+      "time": 1793692971115,
+      "channel": "Amazon",
+      "length": 823
+    },
+    {
+      "time": 1793692971618,
+      "channel": "Amazon",
+      "length": 919
+    },
+    {
+      "time": 1793692972122,
+      "channel": "Amazon",
+      "length": 1044
+    },
+    {
+      "time": 1793692972626,
+      "channel": "Amazon",
+      "length": 1170
+    },
+    {
+      "time": 1793692973129,
+      "channel": "Amazon",
+      "length": 1274
+    },
+    {
+      "time": 1793692973633,
+      "channel": "Amazon",
+      "length": 1399
+    },
+    {
+      "time": 1793692974136,
+      "channel": "Amazon",
+      "length": 1524
+    },
+    {
+      "time": 1793692980443,
+      "channel": "TikTok",
+      "length": 18
+    },
+    {
+      "time": 1793692980947,
+      "channel": "TikTok",
+      "length": 18
+    },
+    {
+      "time": 1793692981450,
+      "channel": "TikTok",
+      "length": 18
+    },
+    {
+      "time": 1793692981954,
+      "channel": "TikTok",
+      "length": 18
+    },
+    {
+      "time": 1793692982458,
+      "channel": "TikTok",
+      "length": 18
+    },
+    {
+      "time": 1793692982964,
+      "channel": "TikTok",
+      "length": 18
+    },
+    {
+      "time": 1793692983467,
+      "channel": "TikTok",
+      "length": 56
+    },
+    {
+      "time": 1793692984015,
+      "channel": "TikTok",
+      "length": 93
+    },
+    {
+      "time": 1793692984519,
+      "channel": "TikTok",
+      "length": 146
+    },
+    {
+      "time": 1793692985023,
+      "channel": "TikTok",
+      "length": 220
+    },
+    {
+      "time": 1793692985526,
+      "channel": "TikTok",
+      "length": 362
+    },
+    {
+      "time": 1793692986029,
+      "channel": "TikTok",
+      "length": 451
+    },
+    {
+      "time": 1793692986533,
+      "channel": "TikTok",
+      "length": 517
+    },
+    {
+      "time": 1793692987036,
+      "channel": "TikTok",
+      "length": 603
+    },
+    {
+      "time": 1793692987539,
+      "channel": "TikTok",
+      "length": 657
+    },
+    {
+      "time": 1793692988042,
+      "channel": "TikTok",
+      "length": 763
+    },
+    {
+      "time": 1793692988545,
+      "channel": "TikTok",
+      "length": 815
+    },
+    {
+      "time": 1793692989048,
+      "channel": "TikTok",
+      "length": 894
+    },
+    {
+      "time": 1793692989552,
+      "channel": "TikTok",
+      "length": 973
+    }
+  ],
+  "productId": "6ae9950bcd2b1d5562d8fabb",
+  "uploadBytes": 3147861,
+  "images": [
+    "/uploads/f413b416-e1b2-4059-a4df-a2b7a94901f2.png",
+    "/uploads/4416e40c-19c5-4b97-a7d3-fedd51b4711e.png"
+  ],
+  "analysis": {
+    "code": 0,
+    "message": "ok",
+    "data": {
+      "visual_elements": [
+        "浅灰绿色底座与支撑杆",
+        "深灰边框手机轮廓倾斜放置",
+        "简洁扁平化插画风格",
+        "商品结构示意图"
+      ],
+      "core_selling_points": [
+        "倾斜角度便于观看屏幕内容",
+        "底座与支撑杆构成稳定三角结构",
+        "插画形式清晰展示产品形态"
+      ],
+      "scene_suggestions": [
+        "办公桌上午后自然光下展示支架形态",
+        "书桌台灯旁模拟夜间使用场景",
+        "咖啡馆木质桌面上示意便携摆放"
+      ],
+      "uncertain_fields": [],
+      "analyzedAt": "2026-11-03T08:02:30.980Z",
+      "reviewStatus": "draft",
+      "version": 1
+    }
+  },
+  "prompt": "A sleek smartphone stand with a light gray-green base and support rod, holding a dark gray phone silhouette at a gentle tilt, placed on a sunlit wooden desk in a modern European home office. Soft natural light streams from a large window, casting subtle shadows. Composed using the rule of thirds, captured at a 45-degree angle with an 85mm lens at f/1.8 for shallow depth of field—blurring the background slightly while keeping the stand and phone sharply detailed. Flat, clean illustration-inspired realism; no text, logos, watermarks, or faces. Visible colors: muted sage green, warm wood tones, charcoal gray phone outline. High-resolution commercial photography style.",
+  "imageTask": {
+    "code": 0,
+    "message": "ok",
+    "data": {
+      "assetId": "6ae99549cd2b1d5562d8fac3",
+      "prompt": "A sleek smartphone stand with a light gray-green base and support rod, holding a dark gray phone silhouette at a gentle tilt, placed on a sunlit wooden desk in a modern European home office. Soft natural light streams from a large window, casting subtle shadows. Composed using the rule of thirds, captured at a 45-degree angle with an 85mm lens at f/1.8 for shallow depth of field—blurring the background slightly while keeping the stand and phone sharply detailed. Flat, clean illustration-inspired realism; no text, logos, watermarks, or faces. Visible colors: muted sage green, warm wood tones, charcoal gray phone outline. High-resolution commercial photography style.",
+      "scene": "办公桌上午后自然光下展示支架形态"
+    }
+  },
+  "stats": {
+    "code": 0,
+    "message": "ok",
+    "data": {
+      "series": [
+        {
+          "date": "2026-10-28",
+          "promptTokens": 0,
+          "completionTokens": 0,
+          "calls": 0
+        },
+        {
+          "date": "2026-10-29",
+          "promptTokens": 0,
+          "completionTokens": 0,
+          "calls": 0
+        },
+        {
+          "date": "2026-10-30",
+          "promptTokens": 0,
+          "completionTokens": 0,
+          "calls": 0
+        },
+        {
+          "date": "2026-10-31",
+          "promptTokens": 0,
+          "completionTokens": 0,
+          "calls": 0
+        },
+        {
+          "date": "2026-11-01",
+          "promptTokens": 0,
+          "completionTokens": 0,
+          "calls": 0
+        },
+        {
+          "date": "2026-11-02",
+          "promptTokens": 0,
+          "completionTokens": 0,
+          "calls": 0
+        },
+        {
+          "date": "2026-11-03",
+          "promptTokens": 5396,
+          "completionTokens": 1226,
+          "calls": 6
+        }
+      ],
+      "success": 6,
+      "failed": 0,
+      "cancelled": 0,
+      "byPurpose": [
+        {
+          "_id": "copy",
+          "calls": 3,
+          "tokens": 4339
+        },
+        {
+          "_id": "image",
+          "calls": 1,
+          "tokens": 0
+        },
+        {
+          "_id": "vision",
+          "calls": 1,
+          "tokens": 1875
+        },
+        {
+          "_id": "prompt",
+          "calls": 1,
+          "tokens": 408
+        }
+      ],
+      "totalTokens": 6622,
+      "totalCalls": 6,
+      "successRate": 100,
+      "unknownUsageCalls": 0,
+      "hasDemo": false,
+      "excludedDemo": 0,
+      "timezone": "Asia/Shanghai",
+      "note": "仅统计启用审计后的真实调用；取消不计失败，成功率排除取消；Token为已知用量合计，非费用账单。"
+    }
+  },
+  "passed": true,
+  "rawVideo": "E:\\AI\\Codex\\课程作业\\2026-10-20_跨境电商营销工坊\\work\\hw8-10\\raw-video\\af8a6ca61d0c25a2d6768496041aa47a.webm"
+}
