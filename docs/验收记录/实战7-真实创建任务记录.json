@@ -1,0 +1,14 @@
+{
+  "time": "2026-10-31T11:15:01.518Z",
+  "http": 202,
+  "body": {
+    "code": 0,
+    "message": "ok",
+    "data": {
+      "assetId": "6ae5cdb4b3c8f804121fe896",
+      "prompt": "A sleek smartphone stand with a light gray-green base and support rod, paired with a dark gray phone silhouette in dynamic tilt—set on a sunlit wooden desk in a modern European apartment. Soft natural light streams from a large window, casting gentle shadows. Composed using rule of thirds, captured at a 45-degree angle with an 85mm lens at f/1.8 for shallow depth of field and creamy bokeh. High-detail commercial photography style: clean, minimalist, lifestyle-oriented. Visible colors: muted sage green, charcoal gray, warm oak tones. Smooth geometric shapes—low-profile trapezoidal base, slender curved rod, angled rectangular phone outline. No text, logos, watermarks, or faces.",
+      "scene": "办公桌上午后自然光下展示支撑姿态"
+    }
+  },
+  "prompt": "A sleek smartphone stand with a light gray-green base and support rod, paired with a dark gray phone silhouette in dynamic tilt—set on a sunlit wooden desk in a modern European apartment. Soft natural light streams from a large window, casting gentle shadows. Composed using rule of thirds, captured at a 45-degree angle with an 85mm lens at f/1.8 for shallow depth of field and creamy bokeh. High-detail commercial photography style: clean, minimalist, lifestyle-oriented. Visible colors: muted sage green, charcoal gray, warm oak tones. Smooth geometric shapes—low-profile trapezoidal base, slender curved rod, angled rectangular phone outline. No text, logos, watermarks, or faces."
+}

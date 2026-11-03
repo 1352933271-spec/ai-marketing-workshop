@@ -9,8 +9,14 @@ const assetSchema = new mongoose.Schema({
   imageUrl: String,
   prompt: String,
   taskId: String,
+  scene: String,
+  sceneIndex: Number,
+  imageStage: { type: String, enum: ['preview','submitting','submitted','complete','failed'] },
+  failureReason: String,
+  submittedAt: Date,
   status: { type: String, enum: ['pending', 'done', 'failed'], default: 'done' },
   reviewStatus: { type: String, enum: ['draft', 'approved'], default: 'draft' },
 }, { timestamps: true })
 
 export default mongoose.model('MarketingAsset', assetSchema)
+

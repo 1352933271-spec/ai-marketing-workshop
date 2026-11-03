@@ -8,7 +8,7 @@ try {
   const port = Number(process.env.PORT || 3100)
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('PORT必须为有效端口')
   await connectDB()
-  server = createApp().listen(port, '127.0.0.1', () => console.log(`[server] http://localhost:${port}`))
+  server = createApp().listen(port, process.env.HOST || '127.0.0.1', () => console.log(`[server] listening port ${port}`))
   server.on('error', async (error) => {
     console.error('[启动失败]', error.code || error.name)
     await mongoose.disconnect()
@@ -27,4 +27,6 @@ async function shutdown() {
 }
 process.once('SIGINT', shutdown)
 process.once('SIGTERM', shutdown)
+
+
 

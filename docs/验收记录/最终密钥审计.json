@@ -1,0 +1,9 @@
+{
+  "sourceSecretScan": "passed",
+  "historyCurrentKeyScan": "passed",
+  "sourceFiles": 103,
+  "historyBlobs": 81,
+  "envIgnored": true,
+  "publicFrontendEnv": "client/.env.production与.env.development只含公开API配置，允许跟踪；server/.env不跟踪",
+  "time": "2026-11-03"
+}

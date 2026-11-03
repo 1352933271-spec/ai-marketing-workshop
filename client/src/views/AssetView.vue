@@ -10,7 +10,7 @@ const list = ref()
   <main class="workspace asset-workspace">
     <header class="topbar">
       <RouterLink class="brand" to="/"><span class="brand-mark">M</span> AI 出海营销工坊</RouterLink>
-      <nav class="asset-nav"><RouterLink to="/">资产中心</RouterLink><RouterLink to="/health">连接检测</RouterLink></nav>
+      <nav class="asset-nav"><RouterLink to="/">资产中心</RouterLink><RouterLink to="/copy">文案工坊</RouterLink><RouterLink to="/scene">场景生图</RouterLink><RouterLink to="/health">连接检测</RouterLink><RouterLink to="/stats">运营看板</RouterLink></nav>
     </header>
     <section class="asset-intro">
       <span class="eyebrow">01 / PRODUCT ASSETS</span>
@@ -24,3 +24,5 @@ const list = ref()
     <footer>刘嘉略 · 0120251050 <span>资产中心 · 视觉理解 · 作业 4</span></footer>
   </main>
 </template>
+
+

@@ -4,6 +4,9 @@ import { ElMessage } from 'element-plus'
 import { useProductStore } from '../stores/product.js'
 import { imageUrl, analyzeProduct } from '../api/product.js'
 
+import { exportPack } from '../utils/exportPack.js'
+const exporting=reactive({})
+async function doExport(p){if(exporting[p._id])return;exporting[p._id]=true;try{await exportPack(p);ElMessage.success('营销包已开始下载')}catch(e){ElMessage.error(e.message)}finally{exporting[p._id]=false}}
 const store = useProductStore()
 const analyzing = reactive({})
 const errors = reactive({})
@@ -47,7 +50,7 @@ onMounted(() => store.load())
               <el-tag v-if="product.category" size="small" effect="plain">{{ product.category }}</el-tag>
               <el-tag v-if="product.audience" size="small" type="info" effect="plain">{{ product.audience }}</el-tag>
             </div>
-            <div class="product-time">{{ new Date(product.createdAt).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }) }}</div>
+            <el-button size="small" class="export-button" :loading="exporting[product._id]" @click="doExport(product)">导出营销包</el-button><div class="product-time">{{ new Date(product.createdAt).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }) }}</div>
             <el-button class="analyze-button" type="primary" plain size="small" :loading="analyzing[product._id]" :disabled="analyzing[product._id]" @click="runAnalyze(product)">
               {{ product.aiAnalysis?.analyzedAt ? '重新识别' : 'AI 一键识别' }}
             </el-button>
@@ -72,3 +75,4 @@ onMounted(() => store.load())
       :page-size="store.size" :current-page="store.page" :disabled="store.loading" @current-change="store.load" />
   </section>
 </template>
+

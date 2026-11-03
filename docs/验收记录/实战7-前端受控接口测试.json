@@ -1,0 +1,9 @@
+{
+  "mocked": true,
+  "meaning": "仅测试骨架、轮询与离页清理，不代表真实生图成功",
+  "pollInterval": 3004,
+  "pollsBeforeLeaving": 2,
+  "pollsAfterLeaving": 2,
+  "skeleton": true,
+  "duplicateButtonDisabled": true
+}

@@ -1,142 +1,120 @@
 # AI 出海营销工坊
 
-刘嘉略 · 0120251050  
-作业4：在商品资产中心上接入百炼多模态识图，输出结构化分析并保存到MongoDB。
+上传商品图 → AI结构化识别 → 三语三渠道流式文案 → 异步场景图 → ZIP营销包 → Token运营看板。
 
-## 本次实现
+刘嘉略 · 学号0120251050。课程演示应用，AI输出保留为待审核草稿，不替代商品实拍或参数证明。
 
-- Vue 3 / Vite前端，Element Plus、Pinia、Vue Router、Axios；ECharts已安装，图表在后续作业实现。
-- 页面自动请求真实的`GET /api/health`，展示成功或失败；控制台打印对象和完整JSON。
-- Express路由、控制器、服务、配置、模型和中间件分层；CORS、JSON/表单解析、404与统一错误信封。
-- Mongoose Product、MarketingAsset模型，时间戳、必填及枚举约束、商品引用索引。
-- 数据库断开时健康接口返回503，而非伪报成功；启动必须先连接MongoDB。
-- 首页为资产中心：拖拽多图上传、名称/受众/品类表单、分页瀑布流、全部图片预览；原健康检测页移至`/health`。
-- multer磁盘暂存、Sharp真实图片解码与再编码、失败清理。
-- 统一llmClient、前三张图Base64、严格JSON校验与一次格式重试、识图接口、卡片loading与三色标签。文案、生图、看板和ZIP业务在后续作业实现。
+## 功能
 
-## 环境及启动
+- 多张JPEG/PNG/WebP上传，真实解码重编码，分页素材中心。
+- 多模态结构化JSON识图，严格校验，格式错误最多重试一次。
+- 英/日/西三语，Amazon/TikTok/Instagram三渠道；SSE、停止生成、Markdown及DOMPurify净化。
+- LLM扩写英文提示词，用户确认后万相异步生成一张；约3秒轮询，本地持久化与历史预览。
+- 浏览器JSZip导出images/、copy/及README.txt，导出失败不交付残缺包。
+- 统一审计文本、识图、扩写、流式和生图创建请求；ECharts按上海时区展示已知Token及请求结果。
 
-需要Node.js 20.19+ / 22.12+或更高的受支持版本、npm、Git、MongoDB Community或Atlas。本次在Node 24验证。
+## 技术栈
 
-在项目根目录执行：
+| 层 | 技术 |
+|---|---|
+| 前端 | Vue 3、Vite 8、Element Plus、Pinia、Vue Router、ECharts、JSZip |
+| 后端 | Node.js 24、Express、Mongoose、Multer、Sharp |
+| 数据 | MongoDB |
+| AI | 百炼Qwen3-VL-Plus、Qwen-Plus、Wan2.1-T2I-Turbo |
+| 部署 | Docker Compose、Nginx多阶段构建、具名数据卷 |
 
-```powershell
-npm --prefix client ci
-npm --prefix server ci
-Copy-Item server/.env.example server/.env
-```
+## Docker启动
 
-已有`.env`时勿覆盖。检查其中的MONGO_URI、PORT和CORS_ORIGIN。有Docker的机器可启动数据库：
+需要可运行的Docker引擎和Docker Compose。
 
-```powershell
-docker compose up -d mongo
-```
+1. 克隆本仓库后进入根目录。
+2. 将server/.env.example复制为server/.env，填自己的DASHSCOPE_API_KEY、所属地域的LLM_BASE_URL及模型名。已有.env不要覆盖。
+3. 执行`docker compose up -d --build`。
+4. 访问http://localhost:8080，健康检查http://localhost:8080/api/health。
 
-也可使用本机MongoDB或Atlas，修改`server/.env`中的连接串。Compass连接同一URI可检查`aimarketing`库。不要将连接串中的密码提交到仓库。
+仅前端映射本机127.0.0.1:8080；backend:3000和mongo:27017只在Compose内部网络。持久化使用mongo-data、uploads-data。`docker compose restart`保留数据，普通`docker compose down`也保留数据卷；不要随意加-v。
 
-然后开两个终端，在项目根目录分别执行：
+前端镜像第一阶段用Node构建，第二阶段仅复制静态dist到Nginx，因此最终前端镜像无需Node和node_modules。后端镜像仍需要Node执行Express，这两种镜像不要混淆。
 
-```powershell
-npm run dev:server
-```
+## 本地开发
 
-```powershell
-npm run dev:client
-```
+需要Node 24及本机MongoDB。根目录执行`npm --prefix server ci`和`npm --prefix client ci`，按上文准备server/.env并检查CORS_ORIGIN与开发前端地址匹配。两个终端分别执行`npm run dev:server`与`npm run dev:client`。默认后端3100、前端5174；开发API地址来自client/.env.development，生产VITE_API_BASE留空、由Nginx同域代理。
 
-打开 http://localhost:5174 使用资产中心；打开 http://localhost:5174/health ，按F12选择Console查看`[health] 后端响应`；直接访问 http://localhost:3100/api/health 也可查看JSON：
+## 环境变量
 
-```json
-{"code":0,"message":"ok","data":{"status":"up","db":"connected","time":"运行时UTC时间"}}
-```
+| 变量 | 含义 | 要求 |
+|---|---|---|
+| PORT / HOST | 后端端口及监听地址 | Docker覆盖为3000/0.0.0.0；本机默认3100/127.0.0.1 |
+| MONGO_URI | 数据库地址 | 必填；Compose覆盖为mongo服务地址 |
+| CORS_ORIGIN | 允许的浏览器开发源，逗号分隔 | 跨域开发时必填；同域生产由Compose给出 |
+| DASHSCOPE_API_KEY | 百炼密钥 | 真实AI调用必填，只在后端运行时注入 |
+| LLM_BASE_URL | 与Key匹配的兼容接口地址 | 使用自己工作空间、地域的地址 |
+| VISION_MODEL | 视觉模型 | 示例qwen3-vl-plus |
+| TEXT_MODEL | 文本/扩写模型 | 示例qwen-plus |
+| IMAGE_MODEL | 万相异步模型 | 示例wanx2.1-t2i-turbo |
+| IMAGE_BASE_URL | 生图原生API根地址 | 可选；默认从LLM_BASE_URL派生同地域/api/v1 |
+| VITE_API_BASE | 浏览器API前缀 | 生产必须为空，禁止放密钥 |
 
-开发API基址见`client/.env.development`，生产同域留空；端口变化时同步修改后端PORT、前端VITE_API_BASE或后端CORS_ORIGIN，再重启。前端环境变量会进入构建产物，不得放密钥。
+## 实际接口约定
 
-## 验证
+JSON统一`{code,message,data}`，0成功、错误data:null。SSE在校验通过后改用event/data/空行帧，delta为增量，done为已保存结果，error为可读失败；delta可含reset:true表示质量重写。
 
-```powershell
-npm run check:db
-npm run build
-```
-
-模型验证脚本会在真实MongoDB创建Product及关联MarketingAsset，验证读取、populate、时间戳和必填规则，最后只删除本次创建的测试文档。若要在Compass观察，可在脚本读取步骤设置断点；脚本验证不代表已经完成Compass人工检查。
+| 方法 | 路径 | 说明 |
+|---|---|---|
+| GET | /api/health | API及MongoDB状态 |
+| POST | /api/products | multipart：name、audience、category、images数组1～5张，单图≤5MB |
+| GET | /api/products?page=1&size=20 | 分页产品，size≤50 |
+| POST | /api/products/:id/analyze | 前三图多模态识别并保存 |
+| POST | /api/copy/generate | productId/language/channel/extra；非流式兼容接口 |
+| POST | /api/copy/stream | 同上；流式、完成保存、断开中断上游 |
+| GET | /api/assets?productId=...&type=copy或image | 最近最多100条素材 |
+| DELETE | /api/assets/:id | 删除素材记录；前端二次确认 |
+| POST | /api/images/preview | productId、sceneIndex 0～2，返回previewId与提示词 |
+| POST | /api/images/generate | previewId，确认后下发一张图，HTTP202 |
+| GET | /api/images/tasks/:assetId | pending/done/failed、本地图片地址与失败原因 |
+| GET | /api/stats/overview?days=7 | 1～30天，上海时区、缺日补零，默认排除demo |
+| GET | /uploads/UUID.ext 或 /uploads/generated/UUID.png | 受限本地图片路径 |
 
 ## 目录
 
 ```text
-client/src/api/          Axios和健康接口
-client/src/components/  通用组件
-client/src/views/       联调页面
-client/src/stores/      Pinia健康状态
-client/src/router/      路由
-server/src/config/      环境变量和MongoDB连接
-server/src/routes/      API路由
-server/src/controllers/ 请求与响应
-server/src/services/    后续业务与AI调用
-server/src/models/      Product与MarketingAsset
-server/src/middlewares/ 统一异常与404
-server/uploads/         上传目录占位
+client/src/api/          请求封装
+client/src/components/  上传、商品卡、Markdown
+client/src/utils/       SSE读取与ZIP导出
+client/src/views/       资产、文案、场景、看板
+client/nginx.conf       32MB上传、同域代理、SSE不缓冲
+server/src/controllers/ 资源与任务接口
+server/src/services/    统一模型出口、审计、图像与Prompt
+server/src/models/      Product、MarketingAsset、TokenLog
+server/src/middlewares/ 校验、上传、合规及错误处理
+server/test/            临时数据库和受控模型测试，不额外消耗模型额度
+server/scripts/         明确命名的人工诊断/调优脚本，可能真实调用模型
+server/uploads/         运行时图片，不进入Git或镜像
+docs/                   实现说明与验收证据
+docker-compose.yml      三服务与两持久化卷
 ```
 
-## 与作业1规划的关系
+## 验证
 
-Product.images按本次作业使用路径数组，后续上传接口把第一张映射为imageUrl；aiAnalysis补充待核实字段、审核状态和版本；MarketingAsset补充审核状态。当前health只检查API和数据库；Worker在后续作业加入后再扩展检查。
+`npm --prefix server test`使用独立临时数据库并清理，仅生产联调才调用真实模型；`npm run build`构建前端。Docker验收以docs中的实际记录为准，不能用本地开发截图替代容器运行证明。
 
-## Git与提交物
+审计只覆盖启用之后的调用。未知Token为null，看板显示已知合计及缺失数量；用户取消不算失败，成功率排除取消。生图0个文本Token不代表免费，image请求成功只表示任务被接受，不等于成图必然成功。
+
+## 已遇到的问题
+
+1. Key返回AccessDenied：在同地域、同业务空间为现有Key补充具体模型权限，不要重置或授权全部模型。
+2. 模型JSON/文案不合规：Prompt约束之外做严格校验，重试一次仍失败就报错，不把草稿保存成合格结果。
+3. 停止按钮被禁用：表单整体禁用会连带停止按钮，改为只禁用参数选择，保持停止可点击。
+4. 生图预览裁切：容器设置明确高度并使用contain，生成结果下载后用本地路径预览。
+5. Nginx下SSE缓冲：关闭proxy_buffering与proxy_cache，使用HTTP/1.1，300秒读取超时。
+6. ZIP图片损坏：必须检查HTTP状态并读取Blob，解压后校验图片/文案非空及渠道结构。
+
+## 限制
+
+目前无用户鉴权、共享队列或商业合规保证；请仅在本机课程环境运行。识图和文案均需人工核对；生成图可能与商品结构不同，也可能未完全服从无标志要求。每份素材默认draft，不能直接当实物证明发布。导出最多100条素材并限制图片体积；达到列表上限会报错避免悄悄遗漏。多实例部署需共享任务锁。
+
+## 截图与归档
+
+关键页面和实际验收记录见docs/验收记录及docs/screenshots。课程提交物单独保存在电商作业文件夹，与GEO分开。
 
 仓库：https://github.com/1352933271-spec/ai-marketing-workshop
-
-忽略规则排除node_modules、dist、server/.env及上传文件，保留.env.example、前端公开配置和上传目录占位。
-
-首次提交信息：`chore: init fullstack skeleton (vue3 + express + mongodb)`。
-
-作业2的两张联调/首次提交截图已单独交付；作业3需要两张交互截图：①表单已填写、已选择两张图片；②提交成功后出现商品卡片。源码压缩包不替代截图。
-
-## 作业3：接口与上传约定
-
-| 接口 | 请求 | 成功响应data |
-|---|---|---|
-| POST `/api/products` | multipart/form-data：name必填文本≤100字符；audience可选文本≤200字符；category可选文本≤60字符；images必填文件数组1～5张 | Product文档，含_id、name、audience、category、images:string[]、createdAt、updatedAt；HTTP201 |
-| GET `/api/products` | page正整数默认1、size正整数默认20且≤50；按创建时间和_id倒序 | {list:Product[],total:number,page:number,size:number} |
-| GET `/uploads/:filename` | 服务端生成的UUID文件名 | 图片二进制；不存在返回404 |
-
-所有JSON响应沿用`{code,message,data}`，失败data为null。校验失败HTTP400：4001表单/数量/分页错误、4002图片格式或解码错误、4003单图过大；服务器异常500/5001。列表空页保留真实total。
-
-与作业1的接口草案差异：本次按作业3明确要求改为`images`多图字段、单张5MB（原草案单图10MB），列表使用`size`和`list`（原草案pageSize和items）；前后端已统一，后续作业沿用此实现。
-
-文件只允许JPEG/PNG/WebP；不信任原始文件名、扩展名和MIME，Sharp必须实际解码且格式匹配，拒绝多帧及超过2500万像素图片。上传先落入不公开的`.staging`目录，重新编码后以UUID及真实格式后缀保存到uploads。原始元信息和附加数据不会保留；任何校验/数据库写入失败会清理本次文件。
-
-静态目录只对UUID图片文件名开放，设置nosniff，禁止目录列表及暂存文件访问。上传图片不进Git；换电脑或重新克隆后，已有数据库记录对应的图片也需要另行迁移。
-
-## 作业3：自动集成验证
-
-确保MongoDB已启动并配置server/.env后，在根目录运行：
-
-```powershell
-npm --prefix server test
-```
-
-使用随机命名的独立临时数据库，不操作aimarketing业务库；测试结束自动清理本次生成图片与测试数据库。覆盖多图写入/读取、静态访问、伪装/损坏文件、超大小和数量、边界值、分页、暂存目录隔离、数据库失败清理。
-
-实现参考：[Multer官方文档](https://expressjs.com/en/resources/middleware/multer/)、[Sharp构造与解码选项](https://sharp.pixelplumbing.com/api-constructor/)。
-
-## 作业4：真实多模态识图
-
-在`server/.env`设置`DASHSCOPE_API_KEY`、`LLM_BASE_URL`、`VISION_MODEL=qwen3-vl-plus`；`TEXT_MODEL=qwen-plus`预留给后续文案作业。本次使用控制台实际可选的Qwen3-VL-Plus，保留课程要求的兼容协议与三个输出字段。Base URL应复制自己百炼工作空间提供的地址，不同地域的Key、模型与地址需要匹配。
-
-复制`.env.example`后填自己的Key，不要覆盖已有配置。Key只放后端环境变量，不进入前端、Git、报告或ZIP。建议先在百炼为所选视觉模型开启免费额度“用完即停”；这是账户侧设置，克隆项目不会自动继承。
-
-`POST /api/products/:id/analyze`无请求体：读取MongoDB商品和最多前三张本地图片，经Sharp缩放至1280像素以内、转JPEG Base64后调用模型。成功HTTP200、`{code:0,message:"ok",data:{visual_elements,core_selling_points,scene_suggestions,analyzedAt,reviewStatus,version}}`；前三项为字符串数组。外观3～6条、卖点3～5条、场景3条，每条1～30字符；不可识别商品时三个数组全空。附加的审核状态/时间/版本由后端生成；`uncertain_fields`为既有模型预留字段，当前不会推断其内容。
-
-错误：HTTP400/4001无效ID、无图或图片不可读；404/4004商品不存在；409/4009同商品正在识别；503/5002缺少配置；502/5002上游调用、超时或格式异常。失败data为null。仅JSON解析或结构失败重试一次，鉴权/额度/网络失败不自动重试；失败保留已保存结果。单次模型45秒、识图总体85秒、前端110秒超时。
-
-前端按商品独立loading并禁用按钮，失败提示、识别完成直接更新当前卡片、刷新后读取已保存结果。分析以草稿展示，蓝色外观/绿色卖点/橙色场景；空结果提示换图。
-
-2026-10-20真实调用通过；8项视觉单元测试和原上传回归合计24个测试全部通过，Vue生产构建通过。真实浏览器核对按钮防重、并发409、三类标签、刷新后持久化、错误提示及390px布局。端口3200/5274为本机隔离验收使用，示例默认仍为3100/5174。
-
-调优报告及原始证据见[作业4进度与联调](docs/作业4进度与联调.md)与`docs/验收记录/`。调优采用示例商品插画，不是实物检测；结构正确不等于事实已验证，卖点使用前须人工核对。
-
-可选复现实测：先上传同名示例商品，配置Key与免费额度保护，再运行`node server/scripts/tune-vision.js`。该命令会真实调用模型并更新实测记录，消耗所选模型额度。普通`npm --prefix server test`使用注入响应验证视觉逻辑，不调用模型。
-
-来源：[阿里云获取API Key](https://help.aliyun.com/zh/model-studio/get-api-key)、[图像与视频理解](https://help.aliyun.com/zh/model-studio/vision-model)。
-
